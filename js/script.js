@@ -299,5 +299,52 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(data => data.json())
     .then(res => console.log(res))
 
-});
 
+
+//Slider
+
+const slidPrev = document.querySelector(".offer__slider-prev"),
+      slidNext = document.querySelector(".offer__slider-next"),
+      current = document.querySelector("#current"),
+      total = document.querySelector("#total"),
+      offerSlider = document.querySelectorAll(".offer__slide");
+let indSlide = 1;
+
+showSlides(indSlide);
+
+if(offerSlider.length < 10) {
+    total.textContent = `0${offerSlider.length}`;
+} else {
+    total.textContent = offerSlider.length;
+}
+
+function showSlides(n) {
+  if (n > offerSlider.length) {
+    indSlide = 1;
+  }
+
+  if(n < 1) {
+    indSlide = offerSlider.length
+  }
+
+  offerSlider.forEach(item => item.style.display = 'none');
+  offerSlider[indSlide -1].style.display = 'block';
+
+  if(offerSlider.length < 10) {
+    current.textContent = `0${indSlide}`;
+} else {
+    current.textContent = indSlide;
+}
+}
+
+function plusSlides(n) {
+  showSlides(indSlide += n)
+}
+
+slidPrev.addEventListener("click", () => {
+  plusSlides(-1)
+})
+slidNext.addEventListener("click", () => {
+  plusSlides(1)
+})
+});
