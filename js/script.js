@@ -307,44 +307,76 @@ const slidPrev = document.querySelector(".offer__slider-prev"),
       slidNext = document.querySelector(".offer__slider-next"),
       current = document.querySelector("#current"),
       total = document.querySelector("#total"),
-      offerSlider = document.querySelectorAll(".offer__slide");
+      slides = document.querySelectorAll(".offer__slide"),
+      slidesWrapper = document.querySelector(".offer__slider-wrapper"),
+      slidesField = document.querySelector(".offer__slider-inner"),
+      width = window.getComputedStyle(slidesWrapper).width;
 let indSlide = 1;
+let offset = 0;
 
-showSlides(indSlide);
 
-if(offerSlider.length < 10) {
-    total.textContent = `0${offerSlider.length}`;
+if(slides.length < 10) {
+    total.textContent = `0${slides.length}`;
+    current.textContent = `0${indSlide}`
 } else {
-    total.textContent = offerSlider.length;
+    total.textContent = slides.length;
+    current.textContent = indSlide
 }
 
-function showSlides(n) {
-  if (n > offerSlider.length) {
+slidesField.style.width = 100 * slides.length + "%";
+slidesField.style.display = "flex";
+slidesField.style.transition = '0.5s all';
+
+
+slidesWrapper.style.overflow ='hidden'
+slides.forEach(slide => {
+  slide.style.width = width;
+});
+
+slidNext.addEventListener("click", () => {
+  if(offset == +width.slice(0, width.length -2) * (slides.length - 1)) {
+    offset = 0;
+  } else {
+    offset += +width.slice(0, width.length -2);
+  }
+
+  slidesField.style.transform = `translateX(-${offset}px)`;
+
+  if (indSlide == slides.length) {
     indSlide = 1;
+  } else {
+    indSlide++;
   }
 
-  if(n < 1) {
-    indSlide = offerSlider.length
-  }
-
-  offerSlider.forEach(item => item.style.display = 'none');
-  offerSlider[indSlide -1].style.display = 'block';
-
-  if(offerSlider.length < 10) {
+  if(slides.length < 10) {
     current.textContent = `0${indSlide}`;
-} else {
+  } else {
     current.textContent = indSlide;
-}
-}
-
-function plusSlides(n) {
-  showSlides(indSlide += n)
-}
+  }
+})
 
 slidPrev.addEventListener("click", () => {
-  plusSlides(-1)
+  if(offset == 0) {
+  offset = +width.slice(0, width.length -2) * (slides.length - 1);
+  } else {
+    offset -= +width.slice(0, width.length -2);
+  }
+
+  slidesField.style.transform = `translateX(-${offset}px)`;
+
+    if (indSlide == 1) {
+    indSlide = slides.length;
+  } else {
+    indSlide--;
+  }
+
+    if(slides.length < 10) {
+    current.textContent = `0${indSlide}`;
+  } else {
+    current.textContent = indSlide;
+  }
+
 })
-slidNext.addEventListener("click", () => {
-  plusSlides(1)
-})
+
+
 });
