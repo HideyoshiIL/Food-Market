@@ -35,6 +35,11 @@
       "name": "tgfhjfgh",
       "phone": "476895",
       "id": "K0ZTMBwpSxw"
+    },
+    {
+      "name": "cghkcgh",
+      "phone": "56785678568",
+      "id": "DtsEqG7P6qg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
